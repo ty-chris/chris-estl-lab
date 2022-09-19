@@ -8,9 +8,14 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
   styleUrls: ['./view-employees-dashboard.component.scss'],
 })
 export class ViewEmployeesDashboardComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'name', 'login', 'salary'];
+  dataSource;
+
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // call get and init datasource
+  }
 
   openUploadFileDialog() {
     const dialogConfig = new MatDialogConfig();
