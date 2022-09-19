@@ -32,7 +32,6 @@ export class UserController {
     try {
       const csvString = file.buffer.toString();
       const jsonArray = await csv().fromString(csvString);
-      console.log('jsonArray', jsonArray);
 
       const success = await this.userService.processJsonArray(jsonArray);
       return success;
@@ -48,8 +47,9 @@ export class UserController {
     @Query('maxSalary') maxSalary: number,
     @Query('offset') offset: number,
     @Query('limit') limit = 30,
-    @Query('minSalary') sort: string,
+    @Query('sort') sort: string,
   ) {
+    console.log('check inside');
     return this.userService.getUsersWithQueries(
       minSalary,
       maxSalary,

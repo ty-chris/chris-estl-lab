@@ -27,6 +27,9 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
       // Ignore # in first row
       if (data.id[0] !== '#') {
         if (this.validateData(data)) {
+          if (typeof data.salary === 'string') {
+            data.salary = parseInt(data.salary);
+          }
           const e = UserEntity.fromNewUserModel(data);
           const newEntity = this.repository.create(e);
           this.repository.persist(newEntity);
@@ -49,36 +52,33 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
     sort: string,
   ) {
     const sortType = sort[0];
-    if (sortType !== '+' && sortType !== '-') {
+    if (sortType !== ' ' && sortType !== '-') {
+      console.log('bad request');
       throw new BadRequestException();
     }
 
     let fieldToSort = sort.slice(1);
     fieldToSort = fieldToSort === 'id' ? 'employeeId' : fieldToSort;
 
-    let users = await this.repository.find(
-      { salary: { $gte: minSalary, $lte: maxSalary } },
-      { offset: offset, limit: limit },
-    );
+    let sortItem = {};
+    sortItem[fieldToSort] = sortType === '-' ? QueryOrder.DESC : QueryOrder.ASC;
 
-    users = users.sort(this.dynamicSort(sortType, fieldToSort));
-    return users;
-  }
-
-  dynamicSort(sortType: string, fieldToSort) {
-    var sortOrder = 1;
-    if (sortType === '-') {
-      sortOrder = -1;
-    }
-    return function (a, b) {
-      var result =
-        a[fieldToSort] < b[fieldToSort]
-          ? -1
-          : a[fieldToSort] > b[fieldToSort]
-          ? 1
-          : 0;
-      return result * sortOrder;
+    const findOptions = {
+      offset: parseInt(offset.toString()),
+      limit: parseInt(limit.toString()),
+      orderBy: sortItem,
     };
+
+    let users = await this.repository.find(
+      {
+        salary: {
+          $gt: parseInt(minSalary.toString()),
+          $lt: parseInt(maxSalary.toString()),
+        },
+      },
+      findOptions,
+    );
+    return users;
   }
 
   validateData(data): boolean {
