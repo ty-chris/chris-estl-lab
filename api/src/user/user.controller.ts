@@ -75,7 +75,6 @@ export class UserController {
     @Query('limit') limit = 30,
     @Query('sort') sort: string,
   ) {
-    console.log('check inside');
     return this.userService.getUsersWithQueries(
       minSalary,
       maxSalary,
