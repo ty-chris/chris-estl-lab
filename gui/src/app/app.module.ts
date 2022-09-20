@@ -14,13 +14,23 @@ import { ViewEmployeesDashboardComponent } from './view-employees-dashboard/view
 import { ViewEmployeeDetailDialogComponent } from './view-employee-detail-dialog/view-employee-detail-dialog.component';
 import { UpdateEmployeeDetailDialogComponent } from './update-employee-detail-dialog/update-employee-detail-dialog.component';
 import { DeleteEmployeeDetailDialogComponent } from './delete-employee-detail-dialog/delete-employee-detail-dialog.component';
+import { CreateEmployeeDetailDialogComponent } from './create-employee-detail-dialog/create-employee-detail-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
 @NgModule({
-  declarations: [AppComponent, FileUploadComponent, ToolbarComponent, ViewEmployeesDashboardComponent, ViewEmployeeDetailDialogComponent, UpdateEmployeeDetailDialogComponent, DeleteEmployeeDetailDialogComponent],
+  declarations: [
+    AppComponent,
+    FileUploadComponent,
+    ToolbarComponent,
+    ViewEmployeesDashboardComponent,
+    ViewEmployeeDetailDialogComponent,
+    UpdateEmployeeDetailDialogComponent,
+    DeleteEmployeeDetailDialogComponent,
+    CreateEmployeeDetailDialogComponent,
+  ],
   imports: [
     HttpClientModule,
     BrowserModule,

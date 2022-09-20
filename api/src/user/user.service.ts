@@ -4,8 +4,8 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { AbstractRepositoryService } from 'src/core/AbstractRepository.service';
-import { UserEntity } from 'src/entities/UserEntity';
+import { AbstractRepositoryService } from '../core/AbstractRepository.service';
+import { UserEntity } from '../entities/UserEntity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -120,7 +120,7 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
     offset: number,
     limit: number,
     sort: string,
-  ) {
+  ): Promise<UserEntity[]> {
     const sortType = sort[0];
     if (sortType !== ' ' && sortType !== '-') {
       console.log('bad request');

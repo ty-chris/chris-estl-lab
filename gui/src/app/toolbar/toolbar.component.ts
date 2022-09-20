@@ -12,6 +12,7 @@ export class ToolbarComponent implements OnInit {
   constructor(public translate: TranslateService) {}
 
   ngOnInit(): void {
-    this.locale = window.navigator.language;
+    const browserLang = this.translate.getBrowserLang();
+    this.locale = browserLang ? browserLang : 'en';
   }
 }

@@ -75,6 +75,6 @@ export class UpdateEmployeeDetailDialogComponent implements OnInit {
   }
 
   openFileUploadErrorSnackbar() {
-    this._snackBar.open(this.translate.instant('BAD_REQUEST_ERROR'), 'Dismiss', { duration: 3000 });
+    this._snackBar.open(this.translate.instant('ERROR_UPDATE_MSG'), 'Dismiss', { duration: 3000 });
   }
 }

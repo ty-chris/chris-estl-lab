@@ -1,6 +1,7 @@
 {
-    "APP_TITLE": "Employee Salary Management Web Application",
+    "APP_TITLE": "Employee Salary Management",
     "IMPORT_TEXT_BTN": "Import via CSV",
+    "CREATE_BTN": "Create Employee",
     "FILTER_BTN": "Filter",
     "VIEW_BTN": "View",
     "UPDATE_BTN": "Update",
@@ -13,16 +14,20 @@
         "ID": "Id",
         "NAME": "Name",
         "LOGIN": "Login",
-        "SALARY": "Salary"
+        "SALARY": "Salary",
+        "ACTION": "Action"
     },
     "VIEW_EMPLOYEE_HEADER": "Employee Details",
     "UPDATE_EMPLOYEE_HEADER": "Update Employee Details",
     "DELETE_EMPLOYEE_HEADER": "Delete Employee",
-    "BAD_REQUEST_ERROR": "Bad request error, unable to perform request",
-    "SUCCESS_UPDATE_MSG": "Successfully updated user",
+    "CREATE_EMPLOYEE_HEADER": "Create Employee",
+    "ERROR_UPDATE_MSG": "Error updating employee",
+    "SUCCESS_UPDATE_MSG": "Successfully updated employee",
     "SUCCESS_UPLOAD_CSV": "Successfully uploaded file",
     "ERROR_UPLOAD_CSV": "Error occured while uploading",
     "DELETE_CONFIRMATION": "Are you sure you want to delete this employee?",
     "SUCCESS_DELETE_MSG": "Successfully deleted employee",
-    "ERROR_DELETE_MSG": "Error occured while deleting employee"
+    "ERROR_DELETE_MSG": "Error occured while deleting employee",
+    "SUCCESS_CREATE_MSG": "Successfully created employee",
+    "ERROR_CREATE_MSG": "Error occured while creating employee"
 }
