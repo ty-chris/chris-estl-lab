@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserModel } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,21 @@ export class UserService {
     }&sort=${'+id'}`;
     const url = this.baseUrl + queryParams;
     return this.http.get<any>(url).pipe(catchError(this.handleError));
+  }
+
+  getUser(id: string): Observable<UserModel> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get<any>(url).pipe(catchError(this.handleError));
+  }
+
+  updateUser(id: string, payload): Observable<UserModel> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.patch<any>(url, payload).pipe(catchError(this.handleError));
+  }
+
+  deleteUser(id: string) {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete<any>(url).pipe(catchError(this.handleError));
   }
 
   getAllUsers(): Observable<any> {

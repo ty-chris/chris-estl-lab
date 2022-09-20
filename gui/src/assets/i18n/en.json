@@ -2,6 +2,9 @@
     "APP_TITLE": "Employee Salary Management Web Application",
     "IMPORT_TEXT_BTN": "Import via CSV",
     "FILTER_BTN": "Filter",
+    "VIEW_BTN": "View",
+    "UPDATE_BTN": "Update",
+    "DELETE_BTN": "Delete",
     "MINIMUM_SALARY": "Minimum Salary",
     "MAXIMUM_SALARY": "Maximum Salary",
     "CSV_UPLOAD_LABEL": "Please select the CSV file to import",
@@ -11,5 +14,15 @@
         "NAME": "Name",
         "LOGIN": "Login",
         "SALARY": "Salary"
-    }
+    },
+    "VIEW_EMPLOYEE_HEADER": "Employee Details",
+    "UPDATE_EMPLOYEE_HEADER": "Update Employee Details",
+    "DELETE_EMPLOYEE_HEADER": "Delete Employee",
+    "BAD_REQUEST_ERROR": "Bad request error, unable to perform request",
+    "SUCCESS_UPDATE_MSG": "Successfully updated user",
+    "SUCCESS_UPLOAD_CSV": "Successfully uploaded file",
+    "ERROR_UPLOAD_CSV": "Error occured while uploading",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete this employee?",
+    "SUCCESS_DELETE_MSG": "Successfully deleted employee",
+    "ERROR_DELETE_MSG": "Error occured while deleting employee"
 }

@@ -15,6 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import csv from 'csvtojson';
+import { UserEntity } from 'src/entities/UserEntity';
 
 @Controller('users')
 export class UserController {
@@ -27,8 +28,7 @@ export class UserController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('csv'))
-  async uploadFile(@UploadedFile() file) {
-    console.log(file);
+  async uploadFile(@UploadedFile() file): Promise<boolean> {
     try {
       const csvString = file.buffer.toString();
       const jsonArray = await csv().fromString(csvString);
@@ -41,9 +41,30 @@ export class UserController {
     }
   }
 
+  @Post()
+  createUser(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    const user = this.userService.createNewUser(createUserDto);
+    return user;
+  }
+
   @Get('all')
   findAll() {
     return this.userService.all();
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() update: UpdateUserDto) {
+    return this.userService.updateUser(id, update);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne({ employeeId: id });
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.userService.remove({ employeeId: id });
   }
 
   @Get()

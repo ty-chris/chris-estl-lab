@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{ 'VIEW_EMPLOYEE_HEADER' | translate }}</h2>
+
+<mat-dialog-content>
+  <div class="dialog-container">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'TABLE_HEADERS.ID' | translate }}</mat-label>
+      <input matInput [ngModel]="employee.employeeId" [readonly]="true" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'TABLE_HEADERS.NAME' | translate }}</mat-label>
+      <input matInput [ngModel]="employee.name" [readonly]="true" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'TABLE_HEADERS.LOGIN' | translate }}</mat-label>
+      <input matInput [ngModel]="employee.login" [readonly]="true" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'TABLE_HEADERS.SALARY' | translate }}</mat-label>
+      <input matInput [ngModel]="employee.salary" [readonly]="true" />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>

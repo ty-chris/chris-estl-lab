@@ -11,13 +11,16 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ViewEmployeesDashboardComponent } from './view-employees-dashboard/view-employees-dashboard.component';
+import { ViewEmployeeDetailDialogComponent } from './view-employee-detail-dialog/view-employee-detail-dialog.component';
+import { UpdateEmployeeDetailDialogComponent } from './update-employee-detail-dialog/update-employee-detail-dialog.component';
+import { DeleteEmployeeDetailDialogComponent } from './delete-employee-detail-dialog/delete-employee-detail-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
 @NgModule({
-  declarations: [AppComponent, FileUploadComponent, ToolbarComponent, ViewEmployeesDashboardComponent],
+  declarations: [AppComponent, FileUploadComponent, ToolbarComponent, ViewEmployeesDashboardComponent, ViewEmployeeDetailDialogComponent, UpdateEmployeeDetailDialogComponent, DeleteEmployeeDetailDialogComponent],
   imports: [
     HttpClientModule,
     BrowserModule,

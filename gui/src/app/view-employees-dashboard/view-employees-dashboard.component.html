@@ -65,7 +65,23 @@
       </th>
       <td mat-cell *matCellDef="let employee">{{ employee.salary }}</td>
     </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
 
+      <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+        <div class="action-column-container">
+          <button mat-raised-button class="action-btn" (click)="viewUser(row)" color="primary">
+            <mat-icon fontIcon="visibility" style="margin-bottom: 3px"></mat-icon> {{ 'VIEW_BTN' | translate }}
+          </button>
+          <button mat-raised-button class="action-btn" (click)="updateUser(row)" color="primary">
+            <mat-icon fontIcon="edit" style="margin-bottom: 3px"></mat-icon> {{ 'UPDATE_BTN' | translate }}
+          </button>
+          <button mat-raised-button class="action-btn" (click)="deleteUser(row)" color="primary">
+            <mat-icon fontIcon="delete" style="margin-bottom: 3px"></mat-icon> {{ 'DELETE_BTN' | translate }}
+          </button>
+        </div>
+      </td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>

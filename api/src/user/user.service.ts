@@ -7,6 +7,7 @@ import {
 import { AbstractRepositoryService } from 'src/core/AbstractRepository.service';
 import { UserEntity } from 'src/entities/UserEntity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService extends AbstractRepositoryService<UserEntity> {
@@ -21,6 +22,7 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
   }
 
   async processJsonArray(csvData: CreateUserDto[]): Promise<boolean> {
+    let cachedEntities: UserEntity[] = [];
     for (const data of csvData) {
       // Ignore # in first row
       if (data.id[0] !== '#') {
@@ -30,18 +32,37 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
           }
           const e = UserEntity.fromNewUserModel(data);
 
-          const checkIfExist = await this.exists({
-            employeeId: e.employeeId,
-          });
-          console.log('checkIfExist', checkIfExist);
-          // if (checkIfExist) {
-          //   console.log('update', e.employeeId);
-          //   const found = await this.getEmployeeById(e.employeeId);
-          //   const entity = await this.repository.assign(found, e);
-          // } else {
-          console.log('create', e.employeeId);
-          this.repository.persist(e);
-          // }
+          const checkIfExist =
+            (await this.exists({
+              employeeId: e.employeeId,
+            })) ||
+            !!cachedEntities.find((cache) => cache.employeeId === e.employeeId);
+
+          const checkLoginIfExists =
+            (await this.exists({
+              login: e.login,
+            })) || !!cachedEntities.find((cache) => cache.login === e.login);
+
+          if (checkIfExist) {
+            const found = await this.getEmployeeById(e.employeeId);
+
+            if (checkLoginIfExists && found.login !== e.login) {
+              throw new BadRequestException();
+            }
+            const entity = await this.repository.assign(found, e);
+
+            // Cache Entities to check for unique values before db is flushed
+            cachedEntities.push(entity);
+          } else {
+            if (!checkLoginIfExists) {
+              this.repository.persist(e);
+
+              // Cache Entities to check for unique values before db is flushed
+              cachedEntities.push(e);
+            } else {
+              throw new BadRequestException();
+            }
+          }
         } else {
           console.log('error: validation failed');
           throw new ForbiddenException();
@@ -51,6 +72,46 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
 
     await this.repository.flush();
     return true;
+  }
+
+  async createNewUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+    if (this.validateData(createUserDto)) {
+      if (typeof createUserDto.salary === 'string') {
+        createUserDto.salary = parseFloat(createUserDto.salary);
+      }
+      const e = UserEntity.fromNewUserModel(createUserDto);
+
+      const checkIfExist = await this.exists({
+        employeeId: e.employeeId,
+      });
+
+      const checkLoginIfExists = await this.exists({
+        login: e.login,
+      });
+
+      if (!checkLoginIfExists) {
+        return await this.create(e);
+      } else {
+        throw new BadRequestException();
+      }
+    } else {
+      throw new ForbiddenException();
+    }
+  }
+
+  async updateUser(id: string, e: UpdateUserDto) {
+    const found = await this.getEmployeeById(id);
+
+    const checkIfExists =
+      (await this.exists({
+        login: e.login,
+      })) && found.login !== e.login;
+
+    if (checkIfExists) {
+      throw new BadRequestException();
+    }
+
+    this.updateByEntity(found, e);
   }
 
   async getUsersWithQueries(

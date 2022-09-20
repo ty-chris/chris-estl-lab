@@ -5,9 +5,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { lastValueFrom, Subscription, takeUntil } from 'rxjs';
+import { DeleteEmployeeDetailDialogComponent } from '../delete-employee-detail-dialog/delete-employee-detail-dialog.component';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
 import { UserModel } from '../models';
 import { UserService } from '../services';
+import { UpdateEmployeeDetailDialogComponent } from '../update-employee-detail-dialog/update-employee-detail-dialog.component';
+import { ViewEmployeeDetailDialogComponent } from '../view-employee-detail-dialog/view-employee-detail-dialog.component';
 
 @Component({
   selector: 'app-view-employees-dashboard',
@@ -15,7 +18,7 @@ import { UserService } from '../services';
   styleUrls: ['./view-employees-dashboard.component.scss'],
 })
 export class ViewEmployeesDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
-  displayedColumns: string[] = ['employeeId', 'name', 'login', 'salary'];
+  displayedColumns: string[] = ['employeeId', 'name', 'login', 'salary', 'action'];
   dataSource: MatTableDataSource<UserModel>;
 
   form = new FormGroup({
@@ -79,12 +82,37 @@ export class ViewEmployeesDashboardComponent implements OnInit, AfterViewInit, O
     this.dataSource.paginator = this.paginator;
   }
 
-  openUploadFileDialog() {
+  viewUser(user) {
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = user;
 
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '40%';
-    dialogConfig.height = '40%';
+    // Configure dialog size
+    dialogConfig.minWidth = 450;
+    const dialogRef = this.dialog.open(ViewEmployeeDetailDialogComponent, dialogConfig);
+  }
+
+  updateUser(user) {
+    const dialogConfig = this.getDialogConfig(user);
+
+    const dialogRef = this.dialog.open(UpdateEmployeeDetailDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      await this.initDataSource();
+    });
+  }
+
+  deleteUser(user) {
+    const dialogConfig = this.getDialogConfig(user);
+
+    const dialogRef = this.dialog.open(DeleteEmployeeDetailDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      await this.initDataSource();
+    });
+  }
+
+  openUploadFileDialog() {
+    const dialogConfig = this.getDialogConfig();
 
     const dialogRef = this.dialog.open(FileUploadComponent, dialogConfig);
 
@@ -93,6 +121,17 @@ export class ViewEmployeesDashboardComponent implements OnInit, AfterViewInit, O
         await this.initDataSource();
       }
     });
+  }
+
+  getDialogConfig(user?: UserModel): MatDialogConfig {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = 450;
+
+    if (user) dialogConfig.data = user;
+
+    return dialogConfig;
   }
 
   ngOnDestroy() {

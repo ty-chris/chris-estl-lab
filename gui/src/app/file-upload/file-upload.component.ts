@@ -2,6 +2,7 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { lastValueFrom } from 'rxjs';
 import { UserService } from '../services/user.service';
 
@@ -20,7 +21,8 @@ export class FileUploadComponent implements OnInit {
     public dialogRef: MatDialogRef<FileUploadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {}
@@ -44,25 +46,24 @@ export class FileUploadComponent implements OnInit {
 
     if (csv) {
       formData.append('csv', csv);
-      console.log('form data', formData.get('csv'));
 
       const upload$ = this.userService.uploadCsv(formData);
-      const uploaded = await lastValueFrom(upload$);
-      if (uploaded) {
-        console.log('file uploaded');
-        this.openFileUploadSuccessSnackbar();
-        this.dialogRef.close(true);
-      } else {
+      const uploaded = await lastValueFrom(upload$).catch((err) => {
         this.dialogRef.close(false);
+        this.openErrorSnackbar();
+      });
+      if (uploaded) {
+        this.dialogRef.close(true);
+        this.openSuccessSnackbar();
       }
     }
   }
 
-  openFileUploadSuccessSnackbar() {
-    this._snackBar.open('Successfully uploaded file', 'Dismiss', { duration: 3000 });
+  openSuccessSnackbar() {
+    this._snackBar.open(this.translate.instant('SUCCESS_UPLOAD_CSV'), 'Dismiss', { duration: 3000 });
   }
 
-  openFileUploadErrorSnackbar() {
-    this._snackBar.open('Error occured while uploading', 'Dismiss', { duration: 3000 });
+  openErrorSnackbar() {
+    this._snackBar.open(this.translate.instant('ERROR_UPLOAD_CSV'), 'Dismiss', { duration: 3000 });
   }
 }
