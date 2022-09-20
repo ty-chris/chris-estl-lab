@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,6 +14,25 @@ export class UserService {
   uploadCsv(file) {
     const url = `${this.baseUrl}/upload`;
     return this.http.post<any>(url, file).pipe(catchError(this.handleError));
+  }
+
+  getInitialUsers() {
+    const queryParams = `?minSalary=${0}&maxSalary=${Number.MAX_SAFE_INTEGER}&offset=${0}&limit=${
+      Number.MAX_SAFE_INTEGER
+    }&sort=${'+id'}`;
+    const url = this.baseUrl + queryParams;
+    return this.http.get<any>(url).pipe(catchError(this.handleError));
+  }
+
+  getAllUsers(): Observable<any> {
+    const url = `${this.baseUrl}/all`;
+    return this.http.get<any>(url).pipe(catchError(this.handleError));
+  }
+
+  getAllUsersWithQuery(minSalary, maxSalary, offset, limit = 30, sort) {
+    const queryParams = `?minSalary=${minSalary}&maxSalary=${maxSalary}&offset=${offset}&limit=${limit}&sort=${sort}`;
+    const url = this.baseUrl + queryParams;
+    return this.http.get<any>(url).pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -1,4 +1,15 @@
 {
     "APP_TITLE": "Employee Salary Management Web Application",
-    "IMPORT_TEXT_BTN": "Import via CSV"
+    "IMPORT_TEXT_BTN": "Import via CSV",
+    "FILTER_BTN": "Filter",
+    "MINIMUM_SALARY": "Minimum Salary",
+    "MAXIMUM_SALARY": "Maximum Salary",
+    "CSV_UPLOAD_LABEL": "Please select the CSV file to import",
+    "UPLOAD_BTN": "Upload",
+    "TABLE_HEADERS": {
+        "ID": "Id",
+        "NAME": "Name",
+        "LOGIN": "Login",
+        "SALARY": "Salary"
+    }
 }

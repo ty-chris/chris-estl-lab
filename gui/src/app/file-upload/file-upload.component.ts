@@ -51,11 +51,18 @@ export class FileUploadComponent implements OnInit {
       if (uploaded) {
         console.log('file uploaded');
         this.openFileUploadSuccessSnackbar();
+        this.dialogRef.close(true);
+      } else {
+        this.dialogRef.close(false);
       }
     }
   }
 
   openFileUploadSuccessSnackbar() {
     this._snackBar.open('Successfully uploaded file', 'Dismiss', { duration: 3000 });
+  }
+
+  openFileUploadErrorSnackbar() {
+    this._snackBar.open('Error occured while uploading', 'Dismiss', { duration: 3000 });
   }
 }

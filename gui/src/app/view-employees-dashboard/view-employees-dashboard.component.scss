@@ -1,0 +1,36 @@
+table {
+    width: 100%;
+}
+
+.view-employees-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.actions-container {
+    display: flex;
+    padding: 20px 0 20px 0;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.btn {
+    max-height: 50px;
+    margin-bottom: 1.34375em;
+}
+
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-text {
+    color: red;
+    padding-bottom: 20px;
+    max-width: 200px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 20px !important;
+}

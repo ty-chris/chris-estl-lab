@@ -1,16 +1,18 @@
-<mat-dialog-content>
-  <form [formGroup]="myForm" (ngSubmit)="submit()">
-    <div class="form-group">
-      <label for="file">Please select the csv file</label>
-      <input
-        type="file"
-        id="uploadFile"
-        (change)="uploadFileEvt($event)"
-        formControlName="file"
-        name="uploadFile"
-        accept="text/csv"
-      />
-    </div>
-    <button mat-raised-button color="primary" type="submit">Upload</button>
-  </form>
-</mat-dialog-content>
+<div class="dialog-container">
+  <mat-dialog-content>
+    <form [formGroup]="myForm" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label for="file">{{ 'CSV_UPLOAD_LABEL' | translate }}</label>
+        <input
+          type="file"
+          id="uploadFile"
+          (change)="uploadFileEvt($event)"
+          formControlName="file"
+          name="uploadFile"
+          accept="text/csv"
+        />
+      </div>
+      <button mat-raised-button color="primary" type="submit" class="upload-btn">{{ 'UPLOAD_BTN' | translate }}</button>
+    </form>
+  </mat-dialog-content>
+</div>

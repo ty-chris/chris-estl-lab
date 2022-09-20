@@ -41,8 +41,13 @@ export class UserController {
     }
   }
 
+  @Get('all')
+  findAll() {
+    return this.userService.all();
+  }
+
   @Get()
-  findAll(
+  findAllWithQuery(
     @Query('minSalary') minSalary: number,
     @Query('maxSalary') maxSalary: number,
     @Query('offset') offset: number,

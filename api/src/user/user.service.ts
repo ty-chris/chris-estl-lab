@@ -1,19 +1,17 @@
 import { EntityManager, QueryOrder } from '@mikro-orm/core';
-import { ObjectId } from '@mikro-orm/mongodb';
 import {
   BadRequestException,
   ForbiddenException,
-  HttpException,
   Injectable,
 } from '@nestjs/common';
-import { ValidationError } from 'class-validator';
 import { AbstractRepositoryService } from 'src/core/AbstractRepository.service';
-import { UserEntity } from 'src/entities/user.entity';
+import { UserEntity } from 'src/entities/UserEntity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService extends AbstractRepositoryService<UserEntity> {
+  entitiesToPersist: UserEntity[] = [];
+
   constructor(private entityManager: EntityManager) {
     super('UserEntity', entityManager);
   }
@@ -22,25 +20,36 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
     return this.all();
   }
 
-  async processJsonArray(csvData): Promise<boolean> {
-    csvData.forEach((data) => {
+  async processJsonArray(csvData: CreateUserDto[]): Promise<boolean> {
+    for (const data of csvData) {
       // Ignore # in first row
       if (data.id[0] !== '#') {
         if (this.validateData(data)) {
           if (typeof data.salary === 'string') {
-            data.salary = parseInt(data.salary);
+            data.salary = parseFloat(data.salary);
           }
           const e = UserEntity.fromNewUserModel(data);
-          const newEntity = this.repository.create(e);
-          this.repository.persist(newEntity);
+
+          const checkIfExist = await this.exists({
+            employeeId: e.employeeId,
+          });
+          console.log('checkIfExist', checkIfExist);
+          // if (checkIfExist) {
+          //   console.log('update', e.employeeId);
+          //   const found = await this.getEmployeeById(e.employeeId);
+          //   const entity = await this.repository.assign(found, e);
+          // } else {
+          console.log('create', e.employeeId);
+          this.repository.persist(e);
+          // }
         } else {
           console.log('error: validation failed');
           throw new ForbiddenException();
         }
       }
-    });
+    }
 
-    this.repository.flush();
+    await this.repository.flush();
     return true;
   }
 
@@ -72,8 +81,8 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
     let users = await this.repository.find(
       {
         salary: {
-          $gt: parseInt(minSalary.toString()),
-          $lt: parseInt(maxSalary.toString()),
+          $gte: parseInt(minSalary.toString()),
+          $lte: parseInt(maxSalary.toString()),
         },
       },
       findOptions,
@@ -93,8 +102,8 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
     return true;
   }
 
-  getEmployeeById(id) {
-    return this.findOne({ id });
+  getEmployeeById(employeeId) {
+    return this.findOne({ employeeId });
   }
 
   getEmployeeByUsername(login) {
