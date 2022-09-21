@@ -30,6 +30,10 @@ export class UserService {
     return this.http.get<any>(url).pipe(catchError(this.handleError));
   }
 
+  createUser(payload): Observable<UserModel> {
+    return this.http.post<any>(this.baseUrl, payload).pipe(catchError(this.handleError));
+  }
+
   updateUser(id: string, payload): Observable<UserModel> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.patch<any>(url, payload).pipe(catchError(this.handleError));

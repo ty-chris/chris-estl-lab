@@ -89,8 +89,8 @@ export class UserService extends AbstractRepositoryService<UserEntity> {
         login: e.login,
       });
 
-      if (!checkLoginIfExists) {
-        return await this.create(e);
+      if (!checkLoginIfExists && !checkIfExist) {
+        return this.create(e);
       } else {
         throw new BadRequestException();
       }

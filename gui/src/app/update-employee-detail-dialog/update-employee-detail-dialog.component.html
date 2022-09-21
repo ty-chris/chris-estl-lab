@@ -1,28 +1,34 @@
-<h2 mat-dialog-title>{{ 'UPDATE_EMPLOYEE_HEADER' | translate }}</h2>
+<h2 mat-dialog-title>{{ "UPDATE_EMPLOYEE_HEADER" | translate }}</h2>
 <mat-dialog-content>
   <form class="form-group" [formGroup]="form" (ngSubmit)="updateEmployee()">
     <div class="dialog-container">
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'TABLE_HEADERS.ID' | translate }}</mat-label>
+        <mat-label>{{ "TABLE_HEADERS.ID" | translate }}</mat-label>
         <input matInput formControlName="employeeId" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'TABLE_HEADERS.NAME' | translate }}</mat-label>
+        <mat-label>{{ "TABLE_HEADERS.NAME" | translate }}</mat-label>
         <input matInput formControlName="name" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'TABLE_HEADERS.LOGIN' | translate }}</mat-label>
+        <mat-label>{{ "TABLE_HEADERS.LOGIN" | translate }}</mat-label>
         <input matInput formControlName="login" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'TABLE_HEADERS.SALARY' | translate }}</mat-label>
-        <input matInput formControlName="salary" />
+        <mat-label>{{ "TABLE_HEADERS.SALARY" | translate }}</mat-label>
+        <input matInput type="number" min="0" formControlName="salary" />
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" class="upload-btn" [disabled]="form.invalid">
-        {{ 'UPDATE_BTN' | translate }}
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="upload-btn"
+        [disabled]="form.invalid"
+      >
+        {{ "UPDATE_BTN" | translate }}
       </button>
     </div>
   </form>

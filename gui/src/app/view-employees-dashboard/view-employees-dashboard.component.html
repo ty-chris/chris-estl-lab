@@ -3,17 +3,27 @@
     <form class="form-group" [formGroup]="form">
       <div class="filters-container">
         <mat-form-field appearance="fill">
-          <mat-label>{{ 'MINIMUM_SALARY' | translate }}</mat-label>
+          <mat-label>{{ "MINIMUM_SALARY" | translate }}</mat-label>
           <span matPrefix>$ &nbsp;</span>
-          <input matInput type="number" placeholder="Eg. 0" formControlName="minSalary" />
+          <input
+            matInput
+            type="number"
+            placeholder="Eg. 0"
+            formControlName="minSalary"
+          />
         </mat-form-field>
         <div class="error-text" *ngIf="minSalaryErrorString">
           {{ minSalaryErrorString }}
         </div>
         <mat-form-field appearance="fill">
-          <mat-label>{{ 'MAXIMUM_SALARY' | translate }}</mat-label>
+          <mat-label>{{ "MAXIMUM_SALARY" | translate }}</mat-label>
           <span matPrefix>$ &nbsp;</span>
-          <input matInput type="number" placeholder="Eg. 4000" formControlName="maxSalary" />
+          <input
+            matInput
+            type="number"
+            placeholder="Eg. 4000"
+            formControlName="maxSalary"
+          />
         </mat-form-field>
         <div class="error-text" *ngIf="maxSalaryErrorString">
           {{ maxSalaryErrorString }}
@@ -23,18 +33,33 @@
           mat-raised-button
           class="btn"
           (click)="getFilteredUsers()"
-          [disabled]="maxSalaryErrorString !== '' || minSalaryErrorString !== ''"
+          [disabled]="
+            maxSalaryErrorString !== '' || minSalaryErrorString !== ''
+          "
         >
-          <mat-icon fontIcon="sort" style="margin-bottom: 3px"></mat-icon> {{ 'FILTER_BTN' | translate }}
+          <mat-icon fontIcon="sort" style="margin-bottom: 3px"></mat-icon>
+          {{ "FILTER_BTN" | translate }}
         </button>
       </div>
     </form>
     <div class="btn-container">
-      <button mat-raised-button (click)="openUploadFileDialog()" class="btn" color="primary">
-        <mat-icon fontIcon="add" style="margin-bottom: 3px"></mat-icon> {{ 'IMPORT_TEXT_BTN' | translate }}
+      <button
+        mat-raised-button
+        (click)="openUploadFileDialog()"
+        class="btn"
+        color="primary"
+      >
+        <mat-icon fontIcon="add" style="margin-bottom: 3px"></mat-icon>
+        {{ "IMPORT_TEXT_BTN" | translate }}
       </button>
-      <button mat-raised-button class="btn" color="primary">
-        <mat-icon fontIcon="add" style="margin-bottom: 3px"></mat-icon> {{ 'CREATE_BTN' | translate }}
+      <button
+        mat-raised-button
+        (click)="createUser()"
+        class="btn"
+        color="primary"
+      >
+        <mat-icon fontIcon="add" style="margin-bottom: 3px"></mat-icon>
+        {{ "CREATE_BTN" | translate }}
       </button>
     </div>
   </div>
@@ -42,47 +67,90 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
       <!-- employeeId Column -->
       <ng-container matColumnDef="employeeId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
-          {{ 'TABLE_HEADERS.ID' | translate }}
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by ID"
+        >
+          {{ "TABLE_HEADERS.ID" | translate }}
         </th>
         <td mat-cell *matCellDef="let employee">{{ employee.employeeId }}</td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name">
-          {{ 'TABLE_HEADERS.NAME' | translate }}
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Name"
+        >
+          {{ "TABLE_HEADERS.NAME" | translate }}
         </th>
         <td mat-cell *matCellDef="let employee">{{ employee.name }}</td>
       </ng-container>
 
       <!-- login Column -->
       <ng-container matColumnDef="login">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Login">
-          {{ 'TABLE_HEADERS.LOGIN' | translate }}
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Login"
+        >
+          {{ "TABLE_HEADERS.LOGIN" | translate }}
         </th>
         <td mat-cell *matCellDef="let employee">{{ employee.login }}</td>
       </ng-container>
 
       <!-- salary Column -->
       <ng-container matColumnDef="salary">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Salary">
-          {{ 'TABLE_HEADERS.SALARY' | translate }}
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Salary"
+        >
+          {{ "TABLE_HEADERS.SALARY" | translate }}
         </th>
         <td mat-cell *matCellDef="let employee">{{ employee.salary }}</td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'TABLE_HEADERS.ACTION' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "TABLE_HEADERS.ACTION" | translate }}
+        </th>
         <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
           <div class="action-column-container">
-            <button mat-raised-button class="action-btn" (click)="viewUser(row)" color="primary">
-              <mat-icon fontIcon="visibility" style="margin-bottom: 3px"></mat-icon> {{ 'VIEW_BTN' | translate }}
+            <button
+              mat-raised-button
+              class="action-btn"
+              (click)="viewUser(row)"
+              color="primary"
+            >
+              <mat-icon
+                fontIcon="visibility"
+                style="margin-bottom: 3px"
+              ></mat-icon>
+              {{ "VIEW_BTN" | translate }}
             </button>
-            <button mat-raised-button class="action-btn" (click)="updateUser(row)" color="primary">
-              <mat-icon fontIcon="edit" style="margin-bottom: 3px"></mat-icon> {{ 'UPDATE_BTN' | translate }}
+            <button
+              mat-raised-button
+              class="action-btn"
+              (click)="updateUser(row)"
+              color="primary"
+            >
+              <mat-icon fontIcon="edit" style="margin-bottom: 3px"></mat-icon>
+              {{ "UPDATE_BTN" | translate }}
             </button>
-            <button mat-raised-button class="action-btn" (click)="deleteUser(row)" color="primary">
-              <mat-icon fontIcon="delete" style="margin-bottom: 3px"></mat-icon> {{ 'DELETE_BTN' | translate }}
+            <button
+              mat-raised-button
+              class="action-btn"
+              (click)="deleteUser(row)"
+              color="primary"
+            >
+              <mat-icon fontIcon="delete" style="margin-bottom: 3px"></mat-icon>
+              {{ "DELETE_BTN" | translate }}
             </button>
           </div>
         </td>
@@ -91,5 +159,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
-  <mat-paginator [pageSizeOptions]="[30]" showFirstLastButtons aria-label="Select page of Employees"> </mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[30]"
+    showFirstLastButtons
+    aria-label="Select page of Employees"
+  >
+  </mat-paginator>
 </div>

@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,11 +21,6 @@ import { UserEntity } from 'src/entities/UserEntity';
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('csv'))
@@ -42,9 +38,13 @@ export class UserController {
   }
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    const user = this.userService.createNewUser(createUserDto);
-    return user;
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    try {
+      const user = await this.userService.createNewUser(createUserDto);
+      return user;
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 
   @Get('all')

@@ -19,6 +19,8 @@ export class CreateEmployeeDetailDialogComponent implements OnInit {
     salary: new FormControl('', [Validators.required]),
   });
 
+  errMsg: string;
+
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<CreateEmployeeDetailDialogComponent>,
@@ -44,27 +46,40 @@ export class CreateEmployeeDetailDialogComponent implements OnInit {
     return this.form.get('salary');
   }
 
-  async updateEmployee() {
-    const create = { name: this.name!.value, login: this.login!.value, salary: this.salary!.value };
-    // const update$ = this.userService.updateUser(this.employee.employeeId, update);
-    // const updated = await lastValueFrom(update$).catch(
-    //   (err) => (this.errMsg = this.translate.instant('BAD_REQUEST_ERROR'))
-    // );
+  async createEmployee() {
+    const create = {
+      id: this.employeeId!.value,
+      name: this.name!.value,
+      login: this.login!.value,
+      salary: this.salary!.value,
+    };
+    const create$ = this.userService.createUser(create);
+    const user = await lastValueFrom(create$).catch((err) =>
+      this.handleFailedCreation()
+    );
 
-    // if (updated) {
-    //   this.openFileUploadSuccessSnackbar();
-    //   this.dialogRef.close(true);
-    // } else {
-    //   this.openFileUploadSuccessSnackbar();
-    //   this.dialogRef.close(false);
-    // }
+    if (user && user.employeeId === create.id) {
+      this.openSuccessSnackbar();
+      this.dialogRef.close(true);
+    }
   }
 
-  openFileUploadSuccessSnackbar() {
-    this._snackBar.open(this.translate.instant('SUCCESS_CREATE_MSG'), 'Dismiss', { duration: 3000 });
+  handleFailedCreation() {
+    this.dialogRef.close(false);
+    this.openErrorSnackbar();
   }
 
-  openFileUploadErrorSnackbar() {
-    this._snackBar.open(this.translate.instant('ERROR_CREATE_MSG'), 'Dismiss', { duration: 3000 });
+  openSuccessSnackbar() {
+    this._snackBar.open(
+      this.translate.instant('SUCCESS_CREATE_MSG'),
+      'Dismiss',
+      { duration: 3000 }
+    );
+  }
+
+  openErrorSnackbar() {
+    this._snackBar.open(this.translate.instant('ERROR_CREATE_MSG'), 'Dismiss', {
+      duration: 3000,
+    });
   }
 }
