@@ -19,4 +19,14 @@ describe('UserController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it('should get the users', () => {});
+
+  it('should get the one user', () => {});
+
+  it('should be able to create', () => {});
+
+  it('should be able to update one', () => {});
+
+  it('should be able to delete one', () => {});
 });

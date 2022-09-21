@@ -51,7 +51,7 @@ describe('UserService', () => {
     );
   });
 
-  it('should be able to create new projects', async () => {
+  it('should be able to create new users', async () => {
     const newUser = {
       id: 'E0001',
       name: 'Harry Potter',
