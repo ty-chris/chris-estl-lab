@@ -32,10 +32,7 @@ describe('UserService', () => {
   it('should be possible to retrieve users', async () => {
     const allUsers = [
       {
-        _id: 'project1',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        employeeId: 'E0001',
+        employeeId: 'e0001',
         name: 'harry potter',
         login: 'hpotter',
         salary: 500,
@@ -46,9 +43,8 @@ describe('UserService', () => {
 
     jest.spyOn(service, 'getUsersWithQueries').mockResolvedValue(allUsers);
 
-    expect(await service.getUsersWithQueries(500, 500, 0, 1, '+id')).toBe(
-      allUsers,
-    );
+    const res = await service.getUsersWithQueries(500, 500, 0, 1, '+id');
+    expect(res).toBe(allUsers);
   });
 
   it('should be able to create new users', async () => {
